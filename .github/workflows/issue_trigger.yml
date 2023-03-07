@@ -1,0 +1,38 @@
+name: Issue Trigger
+
+on:
+  issues:
+    types: [opened, edited, deleted, labeled, unlabeled, closed, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: ${{ github.actor == 'thansetan' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: [3.0]  
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@ee2113536afb7f793eed4ce60e8d3b26db912da4
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: intall octokit
+      run: gem install octokit
+    - name: Update posts
+      env:
+        GITHUB_PAT: ${{ secrets.PAT }}
+      run: ruby issues.rb
+    - name: commit
+      env: 
+        GIT_USER_NAME: 'thansetan'
+        GIT_USER_EMAIL: '62317096+thansetan@users.noreply.github.com'
+      run: |
+        git config user.name "$GIT_USER_NAME"
+        git config user.email "$GIT_USER_EMAIL"
+        (git add _posts/*.md && git commit -am "add/remove post(s), idk") || exit 0
+        git push
