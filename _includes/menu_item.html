@@ -1,5 +1,10 @@
 <ul>
   {%-for item in include.collection-%}
+  {%- if item.title=='Recent posts:' -%}
+  {%- if site.posts.size > 0 -%}
+  <li>{{item.title}}</li>
+  {%- endif -%}
+  {%- else -%}
   <li>
     {%- if item.url -%}
     <a href="{{ item.url }}">{{ item.title }}</a>
@@ -7,7 +12,7 @@
     {{ item.title }}
     {%- endif -%}
   </li>
-
+  {%- endif -%}
   {%-if item.post_list.size-%}
   {%
   include post_list.html
