@@ -1,0 +1,3 @@
+- A personal site/blog built with [Jekyll](https://github.com/jekyll/jekyll).
+- The posts (if exist) are stored in [GitHub issues](https://github.com/thansetan/thansetan.github.io/issues), inspired by [Shawn "swyx" Wang](https://www.swyx.io/github-cms).
+- I don't really like a fancy theme so I'm using a super simple theme called [no-style-please](https://github.com/riggraz/no-style-please) by [riggraz](https://github.com/riggraz).
