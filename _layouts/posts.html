@@ -2,41 +2,37 @@
 layout: default
 ---
 
-{%-include back_link.html-%}
-{%- if site.posts.size <= 0 -%}
+{%-include back_link.html-%} {%- if site.posts.size <= 0 -%}
 <h1 class="center-ver-hor">no posts yet.</h1>
 {%- else -%}
-<h1 style="text-align: center;">{{ page.title }}</h1>
+<h1 style="text-align: center">{{ page.title }}</h1>
 <section>
-    {%- assign cat_list = site.categories -%}
-    {%- for cat in cat_list -%}
-    <h3 class="cat_title">Posts with&nbsp;{{- cat[0] -}}&nbsp;category: </h3>
+    {%- assign cat_list = site.categories -%} {%- for cat in cat_list -%}
+    <h2 class="cat_title">Posts with&nbsp;{{- cat[0] -}}&nbsp;category:</h3>
     <ul>
-        {%- assign pages_list = cat[1] -%}
-        {%- for post in pages_list reversed -%}
-        {%- if post.title != null -%}
+        {%- assign pages_list = cat[1] -%} {%- for post in pages_list reversed
+        -%} {%- if post.title != null -%}
         <li>
             <span>{{- post.date | date: site.theme_config.date_format -}}</span>
-            <a href="{{ post.url | relative_url}}">{{ post.title | downcase }}</a>
+            <a href="{{ post.url | relative_url}}"
+                >{{ post.title | downcase }}</a
+            >
         </li>
-        {%- endif -%}
-        {%- endfor -%}
-        {%- assign pages_list = nil -%}
+        {%- endif -%} {%- endfor -%} {%- assign pages_list = nil -%}
     </ul>
-    {% endfor %}
-    {% if site.categories.size > 0 %}
-    <h3 class="cat_title">Uncategorized posts:</h3>
+    {% endfor %} {% if site.categories.size > 0 %}
+    <h2 class="cat_title">Uncategorized posts:</h3>
     {% endif %}
     <ul>
-        {%- assign other_posts = site.posts %}
-        {%- for post in other_posts %}
+        {%- assign other_posts = site.posts %} {%- for post in other_posts %}
         {%- if post.category == nil -%}
         <li>
             <span>{{- post.date | date: site.theme_config.date_format -}}</span>
-            <a href="{{- post.url | relative_url -}}">{{- post.title | downcase -}}</a>
+            <a href="{{- post.url | relative_url -}}"
+                >{{- post.title | downcase -}}.</a
+            >
         </li>
-        {%- endif -%}
-        {%- endfor -%}
+        {%- endif -%} {%- endfor -%}
     </ul>
 </section>
 {%- endif -%}
