@@ -32,6 +32,6 @@ def update_posts_directory(issues, dir)
   end
 end
 
-dir = '_posts'
+dir = 'contents/_posts'
 issues = get_open_issues_with_label('published')
 update_posts_directory(issues, dir) if issues

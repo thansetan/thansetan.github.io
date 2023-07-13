@@ -15,7 +15,7 @@ layout: default
         <li>
             <span>{{- post.date | date: site.theme_config.date_format -}}</span>
             <a href="{{ post.url | relative_url}}"
-                >{{ post.title | downcase }}</a
+                >{{- post.title | downcase | truncate: 25 -}}</a
             >
         </li>
         {%- endif -%} {%- endfor -%} {%- assign pages_list = nil -%}
@@ -29,7 +29,7 @@ layout: default
         <li>
             <span>{{- post.date | date: site.theme_config.date_format -}}</span>
             <a href="{{- post.url | relative_url -}}"
-                >{{- post.title | downcase -}}.</a
+                >{{- post.title | downcase | truncate: 25-}}.</a
             >
         </li>
         {%- endif -%} {%- endfor -%}

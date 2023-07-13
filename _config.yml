@@ -2,32 +2,34 @@ title: thansetan
 author: Fathan Arsyadani
 email: thansetan@gmail.com
 url: https://thansetan.dev
-baseurl: ""
-description: > 
-  Just an ordinary personal site.
+baseurl: ''
+description: >
+    Just an ordinary personal site.
+
+collections_dir: contents
 
 permalink: /:year:month:day-:slug
 
 defaults:
-  - scope:
-      path: ""
-    values:
-      layout: "post"
+    - scope:
+          path: ''
+      values:
+          layout: 'post'
 
-favicon: "assets/images/aku.png" # name+extension of favicon (which must be put on the root folder)
+favicon: 'assets/images/aku.png' # name+extension of favicon (which must be put on the root folder)
 
 remote_theme: riggraz/no-style-please # if you are using GitHub Pages, change it to remote_theme: riggraz/no-style-please
 
 theme_config:
-  appearance: "light" # can be "light", "dark" or "auto"
-  back_home_text: ".." # customize text for homepage link in post layout
-  date_format: "%Y-%m-%d" # customize how date is formatted
-  post_date_format: "%B %-d, %Y"
-  show_description: true # show blog description in home page
+    appearance: 'light' # can be "light", "dark" or "auto"
+    back_home_text: '..' # customize text for homepage link in post layout
+    date_format: '%Y-%m-%d' # customize how date is formatted
+    post_date_format: '%B %-d, %Y'
+    show_description: true # show blog description in home page
 
 sass:
-  style: :compressed
+    style: :compressed
 
 plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
+    - jekyll-feed
+    - jekyll-seo-tag
