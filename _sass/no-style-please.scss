@@ -29,7 +29,7 @@ body[a="dark"] {
 // see: https://stackoverflow.com/a/61265706
 html,
 body {
-  background: white;
+  background:#F6F6F6;
 }
 
 html {
@@ -112,18 +112,14 @@ td {
 
 code {
   font-style: monospace;
-  color: #abb2bf;
-  background: #282c34;
-  border: #b6b6b6 1px solid;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  color:#c41a16;
 }
 
 blockquote {
   font-style: italic;
   border: thin solid black;
   padding: 1rem;
-
+  background: white;
   p {
     margin: 0;
   }
@@ -155,4 +151,17 @@ figcaption {
 .post-title {
   text-align: center;
   font-size: 40px;
+}
+
+div.highlighter-rouge{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+  code {
+    border: #b6b6b6 1px solid;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
 }
