@@ -75,7 +75,7 @@ li {
 }
 
 *:target {
-  background: yellow;
+  background: #8785A2;
 }
 
 .w {
@@ -153,15 +153,8 @@ figcaption {
   font-size: 40px;
 }
 
-div.highlighter-rouge{
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 40px;
-    margin-inline-end: 40px;
-  code {
+div.highlighter-rouge code{
     border: #b6b6b6 1px solid;
     border-radius: 5px;
     margin-bottom: 20px;
-  }
 }
