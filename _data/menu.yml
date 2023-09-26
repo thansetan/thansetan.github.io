@@ -2,18 +2,18 @@
 # https://github.com/riggraz/no-style-please#customize-the-menu
 
 entries:
-  - title: "Contact me at:"
-    entries:
-      - title: Linkedin
-        url: https://linkedin.com/in/fathanarsyadani
-      - title: Twitter
-        url: https://twitter.com/thansetan
-      - title: E-mail
-        url: mailto:thansetan@gmail.com
+    - title: 'Contact me at:'
+      entries:
+          - title: Linkedin
+            url: https://linkedin.com/in/fathanarsyadani
+          - title: X
+            url: https://x.com/thansetan
+          - title: E-mail
+            url: mailto:thansetan@gmail.com
 
-  - title: "Recent posts:"
-    post_list:
-      limit: 3
-      show_more: true
-      show_more_text: See all posts...
-      show_more_url: posts
+    - title: 'Recent posts:'
+      post_list:
+          limit: 3
+          show_more: true
+          show_more_text: See all posts...
+          show_more_url: posts
