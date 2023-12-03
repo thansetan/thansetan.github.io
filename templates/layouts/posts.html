@@ -1,6 +1,6 @@
 {{ define "posts" }}
 {{ template "upper" assign "Title" .Title }}
-{{ template "back" }}
+{{ template "back" assign "Target" "/" }}
 {{ if .Posts }}
 <h1>{{ .Title }}</h1>
 {{ template "post_list" . }}

@@ -1,6 +1,6 @@
 {{ define "post"}}
 {{ template "upper" assign "Title" .Title }}
-{{ template "back" }}
+{{ template "back" assign "Target" "/posts" }}
 <article>
     <p class="post-meta">
         <time datetime="{{.Date}}">
