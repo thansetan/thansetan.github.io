@@ -4,11 +4,11 @@
 <article>
     <p class="post-meta">
         <time datetime="{{.Date}}">
-            {{.Date.Format "Monday, January 02, 2006"}}
+            {{ .Date.Format "Monday, January 02, 2006" }}
         </time>
     </p>
     <h1 class="post-title">{{ or .Title "A Post" }}</h1>
-    {{.Content}}
+    {{ .Content }}
 </article>
 {{ template "lower" }}
 {{ end }}
