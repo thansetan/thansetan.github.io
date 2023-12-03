@@ -1,0 +1,13 @@
+{{ define "lower" }}
+</main>
+<footer>
+    <div class="text-footer">&copy;2022-<span id="current-year"></span> thansetan</div>
+</footer>
+<script>
+    const date = new Date().getFullYear()
+    document.getElementById('current-year').innerHTML = date
+</script>
+</body>
+
+</html>
+{{ end }}

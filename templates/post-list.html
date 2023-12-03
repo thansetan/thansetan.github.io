@@ -1,0 +1,12 @@
+{{define "post_list"}}
+
+<ul>
+    {{range .Posts}}
+    <li>
+        <span>{{ .Date.Format "January 02, 2006" }}</span>
+        <a href="{{ .Path }}">{{ .Title }}</a>
+    </li>
+    {{end}}
+</ul>
+
+{{end}}

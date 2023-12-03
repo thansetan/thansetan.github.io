@@ -1,0 +1,10 @@
+{{ define "page" }}
+{{ template "upper" assign "Title" .Title }}
+{{ if eq .Title "404"}}
+{{ else }}
+{{ template "back" }}
+<h1> {{ .Title}} </h1>
+{{ end }}
+{{ .Content }}
+{{ template "lower" }}
+{{ end }}

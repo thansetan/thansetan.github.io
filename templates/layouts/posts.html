@@ -1,0 +1,11 @@
+{{ define "posts" }}
+{{ template "upper" assign "Title" .Title }}
+{{ template "back" }}
+{{ if .Posts }}
+<h1>{{ .Title }}</h1>
+{{ template "post_list" . }}
+{{ else }}
+<h1 class="center-ver-hor">No posts yet.</h2>
+{{ end }}
+{{ template "lower" }}
+{{ end }}
