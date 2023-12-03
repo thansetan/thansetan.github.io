@@ -1,10 +1,7 @@
 {{ define "page" }}
-{{ template "upper" assign "Title" .Title }}
-{{ if eq .Title "404"}}
-{{ else }}
-{{ template "back" assign "Target" "/" }}
-<h1> {{ .Title}} </h1>
-{{ end }}
+{{ template "upper" .Title }}
+{{ template "back" }}
+<h1> {{ or .Title "A Page" }} </h1>
 {{ .Content }}
 {{ template "lower" }}
 {{ end }}

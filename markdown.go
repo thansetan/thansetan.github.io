@@ -48,7 +48,7 @@ func init() {
 	)
 }
 
-func toPageData(inputPath string) (Page, error) {
+func toPageData(inputPath string, isPost bool) (Page, error) {
 	var (
 		data Page
 		buf  bytes.Buffer
@@ -72,15 +72,17 @@ func toPageData(inputPath string) (Page, error) {
 	metaData := meta.Get(ctx)
 	data.content = buf.String()
 	data.meta.modifiedAt = fi.ModTime()
-	if metaData["Title"] != nil {
-		data.meta.title = metaData["Title"].(string)
-	} else {
-		data.meta.title = "A Post"
+	if v, ok := metaData["Title"].(string); ok {
+		data.meta.title = v
 	}
-	if metaData["Layout"] != nil {
-		data.meta.layout = metaData["Layout"].(string)
+	if v, ok := metaData["Layout"].(string); ok {
+		data.meta.layout = v
 	} else {
-		data.meta.layout = "post"
+		if isPost {
+			data.meta.layout = "post"
+		} else {
+			data.meta.layout = "page"
+		}
 	}
 
 	return data, nil

@@ -142,3 +142,7 @@ pre {
     text-align: center;
     opacity: 0.8;
 }
+
+h1[id="404"] {
+    font-size: 80px;
+}

@@ -49,12 +49,14 @@ func buildWebsite() error {
 					return nil
 				}
 
-				page, err := toPageData(path)
+				isPost := strings.HasPrefix(path, postsDir)
+
+				page, err := toPageData(path, isPost)
 				if err != nil {
 					return err
 				}
 
-				if page.meta.layout == "post" {
+				if isPost {
 					postPath := filepath.Join(filepath.Base(filepath.Dir(path)))
 					posts = append(posts, post{
 						Title: page.meta.title,
@@ -108,7 +110,7 @@ func buildWebsite() error {
 		return -1
 	})
 
-	pageData, err := toPageData(filepath.Join(postsDir, "index.md"))
+	pageData, err := toPageData(filepath.Join(postsDir, "index.md"), false)
 	if err != nil {
 		return err
 	}
