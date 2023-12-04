@@ -39,14 +39,12 @@ func buildWebsite() error {
 
 	err = filepath.WalkDir(inputDir, func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() {
-			err := os.MkdirAll(strings.Replace(path, inputDir, outputDir, 1), os.ModePerm)
-			if err != nil {
-				return err
-			}
+			err = os.MkdirAll(strings.Replace(path, inputDir, outputDir, 1), os.ModePerm)
 		} else {
-			if filepath.Ext(path) == ".md" {
+			if filepath.Ext(d.Name()) == ".md" {
+				// ignore /posts path, will be treated later
 				if path == filepath.Join(postsDir, "index.md") {
-					return nil
+					return filepath.SkipDir
 				}
 
 				isPost := strings.HasPrefix(path, postsDir)
@@ -57,7 +55,7 @@ func buildWebsite() error {
 				}
 
 				if isPost {
-					postPath := filepath.Join(filepath.Base(filepath.Dir(path)))
+					postPath := filepath.Base(filepath.Dir(path))
 					posts = append(posts, post{
 						Title: page.meta.title,
 						Path:  postPath,
@@ -91,7 +89,7 @@ func buildWebsite() error {
 				}
 			}
 		}
-		return nil
+		return err
 	})
 
 	if err != nil {

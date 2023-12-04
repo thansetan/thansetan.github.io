@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io/fs"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 )
 
@@ -26,11 +24,8 @@ func parseTemplates(dir string) (*template.Template, error) {
 	tmpl := template.New("")
 
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
-		if strings.HasSuffix(d.Name(), ".html") {
+		if filepath.Ext(d.Name()) == ".html" {
 			_, err = tmpl.ParseFiles(path)
-			if err != nil {
-				fmt.Println(err)
-			}
 		}
 
 		return err
