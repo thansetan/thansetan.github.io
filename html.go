@@ -25,8 +25,8 @@ type htmlPage struct {
 func parseTemplates(dir string) (*template.Template, error) {
 	tmpl := template.New("")
 
-	err := filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
-		if strings.Contains(path, ".html") {
+	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+		if strings.HasSuffix(d.Name(), ".html") {
 			_, err = tmpl.ParseFiles(path)
 			if err != nil {
 				fmt.Println(err)
