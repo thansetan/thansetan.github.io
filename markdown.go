@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/alecthomas/chroma/v2/formatters/html"
+	attributes "github.com/mdigger/goldmark-attributes"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	meta "github.com/yuin/goldmark-meta"
@@ -39,6 +40,8 @@ func init() {
 			),
 			extension.Table,
 			extension.Footnote,
+			extension.Strikethrough,
+			attributes.Extension,
 		),
 		goldmark.WithRendererOptions(
 			gmHtml.WithUnsafe(),
