@@ -19,7 +19,9 @@ var (
 
 func init() {
 	// remove already generated files
-	os.RemoveAll(outputDir)
+	if err := os.RemoveAll(outputDir); err != nil {
+		fmt.Printf("ERROR REMOVING EXISTING DIRECTORY: %s\n", err.Error())
+	}
 }
 
 func main() {
@@ -44,7 +46,7 @@ func buildWebsite() error {
 			if filepath.Ext(d.Name()) == ".md" {
 				// ignore /posts path, will be treated later
 				if path == filepath.Join(postsDir, "index.md") {
-					return filepath.SkipDir
+					return nil
 				}
 
 				isPost := strings.HasPrefix(path, postsDir)
@@ -75,13 +77,21 @@ func buildWebsite() error {
 				if err != nil {
 					return err
 				}
-				defer src.Close()
+				defer func() {
+					if err := src.Close(); err != nil {
+						fmt.Printf("ERROR CLOSING SOURCE FILE: %s\n", err.Error())
+					}
+				}()
 
 				dst, err := os.Create(strings.Replace(path, inputDir, outputDir, 1))
 				if err != nil {
 					return err
 				}
-				defer dst.Close()
+				defer func() {
+					if err := dst.Close(); err != nil {
+						fmt.Printf("ERROR CLOSING DESTINATION FILE: %s\n", err.Error())
+					}
+				}()
 
 				_, err = io.Copy(dst, src)
 				if err != nil {
@@ -98,14 +108,14 @@ func buildWebsite() error {
 
 	// begin creating posts page
 
-	// sort by file modification date, ascending
+	// sort by file modification date, descending
 	slices.SortFunc(posts, func(a, b post) int {
 		if a.Date.Unix() > b.Date.Unix() {
-			return 1
+			return -1
 		} else if a.Date.Unix() == b.Date.Unix() {
 			return 0
 		}
-		return -1
+		return 1
 	})
 
 	pageData, err := toPageData(filepath.Join(postsDir, "index.md"), false)
