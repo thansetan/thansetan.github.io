@@ -1,6 +1,6 @@
 ---
-Title: Home
-Layout: home
+title: Home
+layout: home
 ---
 # thansetan
 Just an ordinary personal site.

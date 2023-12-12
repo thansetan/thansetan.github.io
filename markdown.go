@@ -75,10 +75,10 @@ func toPageData(inputPath string, isPost bool) (Page, error) {
 	metaData := meta.Get(ctx)
 	data.content = buf.String()
 	data.meta.modifiedAt = fi.ModTime()
-	if v, ok := metaData["Title"].(string); ok {
+	if v, ok := metaData["title"].(string); ok {
 		data.meta.title = v
 	}
-	if v, ok := metaData["Layout"].(string); ok {
+	if v, ok := metaData["layout"].(string); ok {
 		data.meta.layout = v
 	} else {
 		if isPost {

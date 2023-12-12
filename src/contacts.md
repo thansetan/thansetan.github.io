@@ -1,6 +1,6 @@
 ---
-Title: Contacts
-Layout: page
+title: Contacts
+layout: page
 ---
 | **Social** |                          **Handle**                         |
 |:----------:|:-----------------------------------------------------------:|

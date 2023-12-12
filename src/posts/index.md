@@ -1,4 +1,4 @@
 ---
-Title: List of All Posts
-Layout: posts
+title: List of All Posts
+layout: posts
 ---
