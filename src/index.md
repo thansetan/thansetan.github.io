@@ -2,6 +2,7 @@
 Title: Home
 Layout: home
 ---
-# [thansetan](about.html)
+# thansetan
 Just an ordinary personal site.
+
 [Contacts](contacts.html) | [Posts](posts)
