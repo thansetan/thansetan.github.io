@@ -18,9 +18,9 @@ import (
 )
 
 type pageMeta struct {
-	title      string
-	layout     string
-	modifiedAt time.Time
+	title  string
+	layout string
+	date   time.Time
 }
 type Page struct {
 	meta    pageMeta
@@ -69,7 +69,6 @@ func toPageData(inputPath string, isPost bool) (Page, error) {
 	}
 	defer file.Close()
 
-	fi, _ := os.Stat(inputPath)
 	mdBytes, err := io.ReadAll(file)
 	if err != nil {
 		return data, err
@@ -84,7 +83,6 @@ func toPageData(inputPath string, isPost bool) (Page, error) {
 
 	metaData := meta.Get(ctx)
 	data.content = buf.String()
-	data.meta.modifiedAt = fi.ModTime()
 	if v, ok := metaData["title"].(string); ok {
 		data.meta.title = v
 	}
@@ -96,6 +94,14 @@ func toPageData(inputPath string, isPost bool) (Page, error) {
 		} else {
 			data.meta.layout = "page"
 		}
+	}
+	if v, ok := metaData["date"].(string); ok {
+		data.meta.date, err = time.Parse("2006-01-02", v)
+		if err != nil {
+			data.meta.date = time.Unix(0, 0)
+		}
+	} else {
+		data.meta.date = time.Unix(0, 0)
 	}
 
 	return data, nil

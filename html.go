@@ -48,7 +48,7 @@ func toHTML(tmpl *template.Template, page Page, out string, posts []post) error 
 		Title:   page.meta.title,
 		Content: template.HTML(page.content),
 		Posts:   posts,
-		Date:    page.meta.modifiedAt,
+		Date:    page.meta.date,
 	})
 	if err != nil {
 		return err

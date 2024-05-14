@@ -61,7 +61,7 @@ func buildWebsite() error {
 					posts = append(posts, post{
 						Title: page.meta.title,
 						Path:  postPath,
-						Date:  page.meta.modifiedAt,
+						Date:  page.meta.date,
 					})
 				}
 
