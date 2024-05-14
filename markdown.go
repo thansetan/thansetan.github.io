@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/alecthomas/chroma/v2/formatters/html"
@@ -51,6 +52,11 @@ func init() {
 	)
 }
 
+func replaceMarkdownURL(markdown []byte) []byte {
+	re := regexp.MustCompile(`\[(.*?)\]\((.*?)\.md(.*?)\)`)
+	return re.ReplaceAll(markdown, []byte(`[$1]($2.html$3)`))
+}
+
 func toPageData(inputPath string, isPost bool) (Page, error) {
 	var (
 		data Page
@@ -64,7 +70,11 @@ func toPageData(inputPath string, isPost bool) (Page, error) {
 	defer file.Close()
 
 	fi, _ := os.Stat(inputPath)
-	mdBytes, _ := io.ReadAll(file)
+	mdBytes, err := io.ReadAll(file)
+	if err != nil {
+		return data, err
+	}
+	mdBytes = replaceMarkdownURL(mdBytes)
 	ctx := parser.NewContext()
 
 	err = md.Convert(mdBytes, &buf, parser.WithContext(ctx))
