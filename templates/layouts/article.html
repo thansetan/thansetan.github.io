@@ -1,5 +1,5 @@
 {{ define "article"}}
-{{ template "upper" .Title }}
+{{ template "upper" or .Title "An Article" }}
 <header>
     {{ template "back" "/articles" }}
 </header>
