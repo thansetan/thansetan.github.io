@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"time"
 )
 
 var (
@@ -25,10 +26,12 @@ func init() {
 }
 
 func main() {
+	t0 := time.Now()
 	err := buildWebsite()
 	if err != nil {
 		panic(err)
 	}
+	fmt.Printf("completed in %v\n", time.Since(t0))
 }
 
 func buildWebsite() error {
