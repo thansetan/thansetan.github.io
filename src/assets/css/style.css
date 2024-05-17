@@ -112,6 +112,16 @@ pre {
     overflow-y: hidden;
 }
 
+.footnotes>hr {
+    &::before {
+        content: '/////'
+    }
+
+    &::after {
+        content: 'footnotes/////'
+    }
+}
+
 h1[id="404"] {
     font-size: 80px;
 }
