@@ -1,6 +1,9 @@
 {{ define "articles" }}
 {{ template "upper" .Title }}
-{{ template "back" }}
+<header>
+    {{ template "back" }}
+</header>
+<main>
 {{ if .Articles }}
 <h1>{{ .Title }}</h1>
 {{ template "article-list" .Articles }}

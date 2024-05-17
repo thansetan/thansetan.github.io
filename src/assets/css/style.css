@@ -1,24 +1,23 @@
-html,
 body {
     background: #F6F6F6;
-}
-
-html {
-    height: 100%;
-}
-
-body {
     color: black;
+    display: flex;
+    flex-direction: column;
     font-family: monospace;
     font-size: 16px;
     line-height: 1.4;
-    margin: 0;
-    min-height: 100%;
+    margin: 4rem auto;
+    max-width: 640px;
     overflow-wrap: break-word;
 }
 
-.article-meta {
-    text-align: right;
+header {
+    min-height: 2rem;
+}
+
+main {
+    min-height: 60vh;
+    margin-bottom: 2.5rem;
 }
 
 h2,
@@ -26,7 +25,7 @@ h3,
 h4,
 h5,
 h6 {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 
 hr {
@@ -43,13 +42,6 @@ li {
 
 *:target {
     background: #8785A2;
-}
-
-.w {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    min-height: 60vh;
 }
 
 hr {
@@ -112,24 +104,6 @@ figcaption {
     font-size: 14px;
 }
 
-.center-ver-hor {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.text-footer {
-    padding-bottom: 5%;
-    text-align: center;
-}
-
-.article-title {
-    text-align: center;
-    font-size: 40px;
-}
-
-
 pre {
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -137,16 +111,31 @@ pre {
     overflow-y: hidden;
 }
 
+h1[id="404"] {
+    font-size: 80px;
+}
+
+.text-right {
+    text-align: right;
+}
+
 .text-center {
     text-align: center;
+}
+
+.center-ver-hor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.article-title {
+    font-size: 40px;
 }
 
 .caption {
     font-size: 14px;
     text-align: center;
     opacity: 0.8;
-}
-
-h1[id="404"] {
-    font-size: 80px;
 }

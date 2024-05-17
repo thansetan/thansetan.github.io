@@ -1,13 +1,16 @@
 {{ define "article"}}
 {{ template "upper" .Title }}
-{{ template "back" "/articles" }}
+<header>
+    {{ template "back" "/articles" }}
+</header>
+<main>
 <article>
-    <p class="article-meta">
+    <p class="text-right">
         <time datetime="{{.Date}}">
             {{ .Date.Format "January 02, 2006" }}
         </time>
     </p>
-    <h1 class="article-title">{{ or .Title "An Article" }}</h1>
+    <h1 class="article-title text-center">{{ or .Title "An Article" }}</h1>
     {{ .Content }}
 </article>
 {{ template "lower" }}
