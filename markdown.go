@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 	"os"
-	"regexp"
+	"strings"
 	"time"
 
 	"github.com/alecthomas/chroma/v2/formatters/html"
@@ -12,9 +12,12 @@ import (
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	gmHtml "github.com/yuin/goldmark/renderer/html"
+	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/util"
 )
 
 type pageMeta struct {
@@ -52,13 +55,23 @@ func init() {
 		),
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
+			parser.WithASTTransformers(util.PrioritizedValue{
+				Value:    &DotMdLinkTransformer{},
+				Priority: 1000,
+			}),
 		),
 	)
 }
 
-func replaceMarkdownURL(markdown []byte) []byte {
-	re := regexp.MustCompile(`\[(.*?)\]\((.*?)\.md(.*?)\)`)
-	return re.ReplaceAll(markdown, []byte(`[$1]($2.html$3)`))
+type DotMdLinkTransformer struct{}
+
+func (t *DotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
+	ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+		if link, ok := node.(*ast.Link); ok && strings.HasSuffix(string(link.Destination), ".md") {
+			link.Destination = []byte(strings.TrimSuffix(string(link.Destination), "md") + "html")
+		}
+		return ast.WalkContinue, nil
+	})
 }
 
 func toPageData(inputPath string, isArticle bool) (Page, error) {
@@ -77,7 +90,6 @@ func toPageData(inputPath string, isArticle bool) (Page, error) {
 	if err != nil {
 		return data, err
 	}
-	mdBytes = replaceMarkdownURL(mdBytes)
 	ctx := parser.NewContext()
 
 	err = md.Convert(mdBytes, &buf, parser.WithContext(ctx))
