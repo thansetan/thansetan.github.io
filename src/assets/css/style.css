@@ -6,8 +6,9 @@ body {
     font-family: monospace;
     font-size: 16px;
     line-height: 1.4;
-    margin: 4rem auto;
+    margin: 0 auto;
     max-width: 640px;
+    padding: 4rem 2rem;
     overflow-wrap: break-word;
 }
 
