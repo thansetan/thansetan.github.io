@@ -14,7 +14,7 @@ import (
 var (
 	inputDir     = "src"
 	outputDir    = "docs"
-	postsDir     = filepath.Join(inputDir, "posts")
+	articlesDir  = filepath.Join(inputDir, "articles")
 	templatesDir = "templates"
 )
 
@@ -35,7 +35,7 @@ func main() {
 }
 
 func buildWebsite() error {
-	var posts []post
+	var articles []article
 
 	tmpl, err := parseTemplates(templatesDir)
 	if err != nil {
@@ -47,23 +47,23 @@ func buildWebsite() error {
 			err = os.MkdirAll(strings.Replace(path, inputDir, outputDir, 1), os.ModePerm)
 		} else {
 			if filepath.Ext(d.Name()) == ".md" {
-				// ignore /posts path, will be treated later
-				if path == filepath.Join(postsDir, "index.md") {
+				// ignore /articles path, will be treated later
+				if path == filepath.Join(articlesDir, "index.md") {
 					return nil
 				}
 
-				isPost := strings.HasPrefix(path, postsDir)
+				isArticle := strings.HasPrefix(path, articlesDir)
 
-				page, err := toPageData(path, isPost)
+				page, err := toPageData(path, isArticle)
 				if err != nil {
 					return err
 				}
 
-				if isPost {
-					postPath := filepath.Base(filepath.Dir(path))
-					posts = append(posts, post{
+				if isArticle {
+					articlePath := filepath.Base(filepath.Dir(path))
+					articles = append(articles, article{
 						Title: page.meta.title,
-						Path:  postPath,
+						Path:  articlePath,
 						Date:  page.meta.date,
 					})
 				}
@@ -109,10 +109,10 @@ func buildWebsite() error {
 		return err
 	}
 
-	// begin creating posts page
+	// begin creating articles page
 
 	// sort by file modification date, descending
-	slices.SortFunc(posts, func(a, b post) int {
+	slices.SortFunc(articles, func(a, b article) int {
 		if a.Date.Unix() > b.Date.Unix() {
 			return -1
 		} else if a.Date.Unix() == b.Date.Unix() {
@@ -121,12 +121,12 @@ func buildWebsite() error {
 		return 1
 	})
 
-	pageData, err := toPageData(filepath.Join(postsDir, "index.md"), false)
+	pageData, err := toPageData(filepath.Join(articlesDir, "index.md"), false)
 	if err != nil {
 		return err
 	}
 
-	err = toHTML(tmpl, pageData, filepath.Join(outputDir, "posts", "index.html"), posts)
+	err = toHTML(tmpl, pageData, filepath.Join(outputDir, "articles", "index.html"), articles)
 	if err != nil {
 		return err
 	}

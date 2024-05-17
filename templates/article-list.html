@@ -1,9 +1,9 @@
-{{ define "post_list" }}
+{{ define "article-list" }}
 <ul>
     {{ range . }}
     <li>
         <span>{{ .Date.Format "2006-01-02" }}</span>
-        <a href="{{ .Path }}">{{ or .Title "A Post" }}</a>
+        <a href="{{ .Path }}">{{ or .Title "An Article" }}</a>
     </li>
     {{ end }}
 </ul>

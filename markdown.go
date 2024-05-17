@@ -27,7 +27,9 @@ type Page struct {
 	content string
 }
 
-var md goldmark.Markdown
+var (
+	md goldmark.Markdown
+)
 
 func init() {
 	md = goldmark.New(
@@ -48,7 +50,9 @@ func init() {
 			gmHtml.WithUnsafe(),
 			gmHtml.WithHardWraps(),
 		),
-		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(),
+		),
 	)
 }
 
@@ -57,7 +61,7 @@ func replaceMarkdownURL(markdown []byte) []byte {
 	return re.ReplaceAll(markdown, []byte(`[$1]($2.html$3)`))
 }
 
-func toPageData(inputPath string, isPost bool) (Page, error) {
+func toPageData(inputPath string, isArticle bool) (Page, error) {
 	var (
 		data Page
 		buf  bytes.Buffer
@@ -89,8 +93,8 @@ func toPageData(inputPath string, isPost bool) (Page, error) {
 	if v, ok := metaData["layout"].(string); ok {
 		data.meta.layout = v
 	} else {
-		if isPost {
-			data.meta.layout = "post"
+		if isArticle {
+			data.meta.layout = "article"
 		} else {
 			data.meta.layout = "page"
 		}

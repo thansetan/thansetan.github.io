@@ -1,13 +1,13 @@
-{{ define "post"}}
+{{ define "article"}}
 {{ template "upper" .Title }}
-{{ template "back" "/posts" }}
+{{ template "back" "/articles" }}
 <article>
-    <p class="post-meta">
+    <p class="article-meta">
         <time datetime="{{.Date}}">
             {{ .Date.Format "January 02, 2006" }}
         </time>
     </p>
-    <h1 class="post-title">{{ or .Title "A Post" }}</h1>
+    <h1 class="article-title">{{ or .Title "An Article" }}</h1>
     {{ .Content }}
 </article>
 {{ template "lower" }}

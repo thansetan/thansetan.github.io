@@ -8,16 +8,16 @@ import (
 	"time"
 )
 
-type post struct {
+type article struct {
 	Title, Path string
 	Date        time.Time
 }
 
 type htmlPage struct {
-	Content template.HTML
-	Posts   []post
-	Title   string
-	Date    time.Time
+	Content  template.HTML
+	Articles []article
+	Title    string
+	Date     time.Time
 }
 
 func parseTemplates(dir string) (*template.Template, error) {
@@ -37,7 +37,7 @@ func parseTemplates(dir string) (*template.Template, error) {
 	return tmpl, nil
 }
 
-func toHTML(tmpl *template.Template, page Page, out string, posts []post) error {
+func toHTML(tmpl *template.Template, page Page, out string, articles []article) error {
 	file, err := os.Create(out)
 	if err != nil {
 		return err
@@ -45,10 +45,10 @@ func toHTML(tmpl *template.Template, page Page, out string, posts []post) error 
 	defer file.Close()
 
 	err = tmpl.ExecuteTemplate(file, page.meta.layout, htmlPage{
-		Title:   page.meta.title,
-		Content: template.HTML(page.content),
-		Posts:   posts,
-		Date:    page.meta.date,
+		Title:    page.meta.title,
+		Content:  template.HTML(page.content),
+		Articles: articles,
+		Date:     page.meta.date,
 	})
 	if err != nil {
 		return err

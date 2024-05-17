@@ -1,0 +1,11 @@
+{{ define "articles" }}
+{{ template "upper" .Title }}
+{{ template "back" }}
+{{ if .Articles }}
+<h1>{{ .Title }}</h1>
+{{ template "article-list" .Articles }}
+{{ else }}
+<h1 class="center-ver-hor">No articles yet.</h2>
+{{ end }}
+{{ template "lower" }}
+{{ end }}
