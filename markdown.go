@@ -3,7 +3,9 @@ package main
 import (
 	"bytes"
 	"io"
+	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -67,8 +69,16 @@ type DotMdLinkTransformer struct{}
 
 func (t *DotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
 	ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if link, ok := node.(*ast.Link); ok && strings.HasSuffix(string(link.Destination), ".md") {
-			link.Destination = []byte(strings.TrimSuffix(string(link.Destination), "md") + "html")
+		if link, ok := node.(*ast.Link); ok &&
+			strings.Contains(string(link.Destination), ".md") {
+			url, err := url.Parse(string(link.Destination))
+			if err != nil {
+				return ast.WalkContinue, err
+			}
+			if url.Scheme == "" && filepath.Ext(url.Path) == ".md" { // only replace relative links and .md files
+				url.Path = url.Path[:len(url.Path)-2] + "html"
+				link.Destination = []byte(url.String())
+			}
 		}
 		return ast.WalkContinue, nil
 	})
@@ -90,6 +100,7 @@ func toPageData(inputPath string, isArticle bool) (Page, error) {
 	if err != nil {
 		return data, err
 	}
+
 	ctx := parser.NewContext()
 
 	err = md.Convert(mdBytes, &buf, parser.WithContext(ctx))
