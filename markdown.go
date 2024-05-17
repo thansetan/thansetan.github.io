@@ -52,11 +52,11 @@ func init() {
 			attributes.Extension,
 		),
 		goldmark.WithRendererOptions(
-			gmHtml.WithUnsafe(),
 			gmHtml.WithHardWraps(),
 		),
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
+			parser.WithAttribute(),
 			parser.WithASTTransformers(util.PrioritizedValue{
 				Value:    &dotMdLinkTransformer{},
 				Priority: 1000,
