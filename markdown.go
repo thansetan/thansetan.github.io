@@ -41,7 +41,7 @@ func init() {
 		goldmark.WithExtensions(
 			meta.Meta,
 			highlighting.NewHighlighting(
-				highlighting.WithStyle("monokailight"),
+				highlighting.WithStyle("onedark"),
 				highlighting.WithFormatOptions(
 					html.WithLineNumbers(true),
 				),
@@ -58,16 +58,16 @@ func init() {
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
 			parser.WithASTTransformers(util.PrioritizedValue{
-				Value:    &DotMdLinkTransformer{},
+				Value:    &dotMdLinkTransformer{},
 				Priority: 1000,
 			}),
 		),
 	)
 }
 
-type DotMdLinkTransformer struct{}
+type dotMdLinkTransformer struct{}
 
-func (t *DotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
+func (t *dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
 	ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if link, ok := node.(*ast.Link); ok &&
 			strings.Contains(string(link.Destination), ".md") {
