@@ -1,1 +1,1 @@
-- Theme used: [no-style-please](https://github.com/riggraz/no-style-please) by [riggraz](https://github.com/riggraz).
+- Style/theme inspiration: [no-style-please](https://github.com/riggraz/no-style-please) by [riggraz](https://github.com/riggraz).
