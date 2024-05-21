@@ -13,12 +13,12 @@
     </p>
     <div class="project-url">
         {{ if .Content.GithubRepo }}
-        <a href="{{ .Content.GithubRepo }}">GitHub Repository</a>
+        <a href="{{ .Content.GithubRepo }}" target="_blank">GitHub Repository</a>
         {{ else }}
         <span>Github Repository</span>
         {{ end }}
         {{ if .Content.ProjectURL }}
-        <a href="{{ .Content.ProjectURL}}">Project URL</a>
+        <a href="{{ .Content.ProjectURL}}" target="_blank">Project URL</a>
         {{ else }}
         <span>Project URL</span>
         {{ end }}
@@ -26,7 +26,7 @@
     <h2>Tech used: </h2>
     <ul>
         {{ range .Content.Technologies}}
-        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        <li><a href="{{ .URL }}" target="_blank">{{ .Name }}</a></li>
         {{ end }}
     </ul>
 {{ template "lower" }}
