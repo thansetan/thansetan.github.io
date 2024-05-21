@@ -8,7 +8,6 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"slices"
 	"strings"
 	"time"
 )
@@ -114,21 +113,9 @@ func buildWebsite() error {
 		return err
 	}
 
-	// begin creating articles page
-
-	// sort by file modification date, descending
-	slices.SortFunc(articles, func(a, b articleMeta) int {
+	// creating /articles page
+	err = generateSpecialPage(tmpl, filepath.Join(articlesDir, "index.md"), filepath.Join(outputDir, "articles", "index.html"), articles, func(a, b articleMeta) int {
 		return cmp.Compare(b.Date.Unix(), a.Date.Unix())
-	})
-
-	pageMeta, _, err := toPageData(filepath.Join(articlesDir, "index.md"), false)
-	if err != nil {
-		return err
-	}
-
-	err = toHTML(tmpl, pageMeta.layout, filepath.Join(outputDir, "articles", "index.html"), page[[]articleMeta]{
-		Meta:    pageMeta,
-		Content: articles,
 	})
 	if err != nil {
 		return err
