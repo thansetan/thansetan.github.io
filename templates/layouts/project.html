@@ -12,8 +12,16 @@
         {{ .Content.Description }}
     </p>
     <div class="project-url">
+        {{ if .Content.GithubRepo }}
         <a href="{{ .Content.GithubRepo }}">GitHub Repository</a>
+        {{ else }}
+        <span>Github Repository</span>
+        {{ end }}
+        {{ if .Content.ProjectURL }}
         <a href="{{ .Content.ProjectURL}}">Project URL</a>
+        {{ else }}
+        <span>Project URL</span>
+        {{ end }}
     </div>
     <h2>Tech used: </h2>
     <ul>
