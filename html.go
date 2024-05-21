@@ -5,20 +5,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"time"
 )
-
-type article struct {
-	Title, Path string
-	Date        time.Time
-}
-
-type htmlPage struct {
-	Content  template.HTML
-	Articles []article
-	Title    string
-	Date     time.Time
-}
 
 func parseTemplates(dir string) (*template.Template, error) {
 	tmpl := template.New("")
@@ -37,19 +24,14 @@ func parseTemplates(dir string) (*template.Template, error) {
 	return tmpl, nil
 }
 
-func toHTML(tmpl *template.Template, page Page, out string, articles []article) error {
-	file, err := os.Create(out)
+func toHTML[T any](tmpl *template.Template, layout, out string, data T) error {
+	outFile, err := os.Create(out)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer outFile.Close()
 
-	err = tmpl.ExecuteTemplate(file, page.meta.layout, htmlPage{
-		Title:    page.meta.title,
-		Content:  template.HTML(page.content),
-		Articles: articles,
-		Date:     page.meta.date,
-	})
+	err = tmpl.ExecuteTemplate(outFile, layout, data)
 	if err != nil {
 		return err
 	}

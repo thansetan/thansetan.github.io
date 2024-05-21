@@ -22,16 +22,6 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-type pageMeta struct {
-	title  string
-	layout string
-	date   time.Time
-}
-type Page struct {
-	meta    pageMeta
-	content string
-}
-
 var (
 	md goldmark.Markdown
 )
@@ -84,52 +74,51 @@ func (t *dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader,
 	})
 }
 
-func toPageData(inputPath string, isArticle bool) (Page, error) {
+func toPageData(inputPath string, isArticle bool) (pageMeta, string, error) {
 	var (
-		data Page
-		buf  bytes.Buffer
+		pageMeta pageMeta
+		buf      bytes.Buffer
 	)
 
 	file, err := os.Open(inputPath)
 	if err != nil {
-		return data, err
+		return pageMeta, buf.String(), err
 	}
 	defer file.Close()
 
 	mdBytes, err := io.ReadAll(file)
 	if err != nil {
-		return data, err
+		return pageMeta, buf.String(), err
 	}
 
 	ctx := parser.NewContext()
 
 	err = md.Convert(mdBytes, &buf, parser.WithContext(ctx))
 	if err != nil {
-		return data, err
+		return pageMeta, buf.String(), err
 	}
 
 	metaData := meta.Get(ctx)
-	data.content = buf.String()
 	if v, ok := metaData["title"].(string); ok {
-		data.meta.title = v
+		pageMeta.Title = v
 	}
 	if v, ok := metaData["layout"].(string); ok {
-		data.meta.layout = v
+		pageMeta.layout = v
 	} else {
 		if isArticle {
-			data.meta.layout = "article"
+			pageMeta.layout = "article"
 		} else {
-			data.meta.layout = "page"
+			pageMeta.layout = "page"
 		}
 	}
 	if v, ok := metaData["date"].(string); ok {
-		data.meta.date, err = time.Parse("2006-01-02", v)
+		pageMeta.Date, err = time.Parse("2006-01-02", v)
 		if err != nil {
-			data.meta.date = time.Unix(0, 0)
+			pageMeta.Date = time.Unix(0, 0)
 		}
 	} else {
-		data.meta.date = time.Unix(0, 0)
+		pageMeta.Date = time.Unix(0, 0)
 	}
 
-	return data, nil
+	return pageMeta, buf.String(), nil
 }

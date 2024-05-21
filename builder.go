@@ -1,7 +1,9 @@
 package main
 
 import (
+	"cmp"
 	"fmt"
+	"html/template"
 	"io"
 	"io/fs"
 	"os"
@@ -35,7 +37,7 @@ func main() {
 }
 
 func buildWebsite() error {
-	var articles []article
+	var articles []articleMeta
 
 	tmpl, err := parseTemplates(templatesDir)
 	if err != nil {
@@ -54,24 +56,27 @@ func buildWebsite() error {
 
 				isArticle := strings.HasPrefix(path, articlesDir)
 
-				page, err := toPageData(path, isArticle)
+				pageMeta, content, err := toPageData(path, isArticle)
 				if err != nil {
 					return err
 				}
 
 				if isArticle {
 					articlePath := filepath.Base(filepath.Dir(path))
-					articles = append(articles, article{
-						Title: page.meta.title,
+					articles = append(articles, articleMeta{
+						Title: pageMeta.Title,
 						Path:  articlePath,
-						Date:  page.meta.date,
+						Date:  pageMeta.Date,
 					})
 				}
 
 				outputPath := strings.TrimSuffix(strings.Replace(path, inputDir, outputDir, 1), ".md")
 				outputPath = fmt.Sprintf("%s.html", outputPath)
 
-				err = toHTML(tmpl, page, outputPath, nil)
+				err = toHTML(tmpl, pageMeta.layout, outputPath, page[template.HTML]{
+					Meta:    pageMeta,
+					Content: template.HTML(content),
+				})
 				if err != nil {
 					return err
 				}
@@ -112,21 +117,19 @@ func buildWebsite() error {
 	// begin creating articles page
 
 	// sort by file modification date, descending
-	slices.SortFunc(articles, func(a, b article) int {
-		if a.Date.Unix() > b.Date.Unix() {
-			return -1
-		} else if a.Date.Unix() == b.Date.Unix() {
-			return 0
-		}
-		return 1
+	slices.SortFunc(articles, func(a, b articleMeta) int {
+		return cmp.Compare(b.Date.Unix(), a.Date.Unix())
 	})
 
-	pageData, err := toPageData(filepath.Join(articlesDir, "index.md"), false)
+	pageMeta, _, err := toPageData(filepath.Join(articlesDir, "index.md"), false)
 	if err != nil {
 		return err
 	}
 
-	err = toHTML(tmpl, pageData, filepath.Join(outputDir, "articles", "index.html"), articles)
+	err = toHTML(tmpl, pageMeta.layout, filepath.Join(outputDir, "articles", "index.html"), page[[]articleMeta]{
+		Meta:    pageMeta,
+		Content: articles,
+	})
 	if err != nil {
 		return err
 	}

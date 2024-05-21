@@ -1,10 +1,10 @@
 {{ define "page" }}
-{{ template "upper" .Title }}
+{{ template "upper" .Meta.Title }}
 <header>
     {{ template "back" }}
 </header>
 <main>
-<h1> {{ or .Title "A Page" }} </h1>
+<h1> {{ or .Meta.Title "A Page" }} </h1>
 {{ .Content }}
 {{ template "lower" }}
 {{ end }}
