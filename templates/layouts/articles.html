@@ -6,7 +6,14 @@
 <main>
 {{ if .Content }}
 <h1>{{ .Meta.Title }}</h1>
-{{ template "article-list" .Content }}
+<ul>
+    {{ range .Content }}
+    <li>
+        <span>{{ .Date.Format "2006-01-02" }}</span>
+        <a href="{{ .Path }}">{{ or .Title "An Article" }}</a>
+    </li>
+    {{ end }}
+</ul>
 {{ else }}
 <h1 class="center-ver-hor">No articles yet.</h2>
 {{ end }}
