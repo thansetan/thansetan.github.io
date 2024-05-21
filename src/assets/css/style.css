@@ -136,6 +136,7 @@ h1[id="404"] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
 }
 
 .article-title {
@@ -165,4 +166,18 @@ h1[id="404"] {
 .project-description {
     text-align: justify;
     text-indent: 5%;
+}
+
+.menu-item {
+    list-style-type: none;
+    padding: 0;
+    min-width: 100%;
+}
+
+.menu-item>li {
+    display: inline;
+}
+
+.menu-item li:not(:last-child)::after {
+    content: " |";
 }
