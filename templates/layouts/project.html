@@ -1,0 +1,25 @@
+{{ define "project" }}
+{{ template "upper" .Meta.Title }}
+<header>
+    {{ template "back" "/projects" }}
+</header>
+<main>
+    <h1 class="text-center project-title">{{ .Meta.Title }}</h1>
+    <p class="text-center project-timeframe">
+        ({{ .Content.Timeframe.Start.Format "Jan 2006" }} - {{ .Content.Timeframe.End.Format "Jan 2006" }})
+    </p>
+    <p class="project-description">
+        {{ .Content.Description }}
+    </p>
+    <div class="project-url">
+        <a href="{{ .Content.GithubRepo }}">GitHub Repository</a>
+        <a href="{{ .Content.ProjectURL}}">Project URL</a>
+    </div>
+    <h2>Tech used: </h2>
+    <ul>
+        {{ range .Content.Technologies}}
+        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        {{ end }}
+    </ul>
+{{ template "lower" }}
+{{ end }}

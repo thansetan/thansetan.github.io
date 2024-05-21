@@ -1,0 +1,17 @@
+{{ define "projects" }}
+{{ template "upper" .Meta.Title }}
+<header>
+    {{ template "back" }}
+</header>
+<main>
+    <h1>List of Projects</h1>
+    <ul>
+    {{ range .Content }}
+        <li>
+            <a href="{{ .Path }}">{{ .Title }}</a>
+            <span class="project-timeframe">({{ .Timeframe.Start.Format "Jan 2006" }} - {{ .Timeframe.End.Format "Jan 2006" }})</span>
+        </li>
+    {{ end }}
+    </ul>
+{{ template "lower"}}
+{{ end }}

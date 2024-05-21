@@ -29,10 +29,6 @@ h6 {
     margin-top: 1.5rem;
 }
 
-hr {
-    margin: 2rem 0;
-}
-
 p {
     margin: 1rem 0;
 }
@@ -46,6 +42,7 @@ li {
 }
 
 hr {
+    margin: 2rem 0;
     text-align: center;
     border: 0;
 
@@ -149,4 +146,23 @@ h1[id="404"] {
     font-size: 14px;
     text-align: center;
     opacity: 0.8;
+}
+
+.project-title {
+    margin-bottom: 0;
+}
+
+.project-timeframe {
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.project-url {
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-description {
+    text-align: justify;
+    text-indent: 5%;
 }

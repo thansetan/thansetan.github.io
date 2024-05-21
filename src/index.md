@@ -5,4 +5,4 @@ layout: home
 # thansetan
 Just an ordinary personal site.
 
-[Contacts](contacts.md) | [Articles](articles)
+[Contacts](contacts.md) | [Articles](articles) | [Projects](projects)
