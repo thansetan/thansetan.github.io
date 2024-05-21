@@ -1,4 +1,4 @@
 ---
-title: Collection of Projects I've Worked on
+title: List of Projects
 layout: projects
 ---
