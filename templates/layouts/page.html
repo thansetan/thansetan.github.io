@@ -1,5 +1,5 @@
 {{ define "page" }}
-{{ template "upper" .Meta.Title }}
+{{ template "upper" or .Meta.Title "A Page"}}
 <header>
     {{ template "back" }}
 </header>

@@ -1,10 +1,10 @@
 {{ define "project" }}
-{{ template "upper" .Meta.Title }}
+{{ template "upper" or .Meta.Title "A Project" }}
 <header>
     {{ template "back" "/projects" }}
 </header>
 <main>
-    <h1 class="text-center project-title">{{ .Meta.Title }}</h1>
+    <h1 class="text-center project-title">{{ or .Meta.Title "A Project" }}</h1>
     <p class="text-center project-timeframe">
         ({{ .Content.Timeframe.Start.Format "Jan 2006" }} - {{ .Content.Timeframe.End.Format "Jan 2006" }})
     </p>
