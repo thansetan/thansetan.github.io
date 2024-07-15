@@ -181,3 +181,22 @@ h1[id="404"] {
 .menu-item li:not(:last-child)::after {
     content: " |";
 }
+
+.project-item {
+    p {
+        text-align: justify;
+        font-size: 14px;
+        margin: 0;
+        line-clamp: 2;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+    }
+
+    p::before {
+        content: "> ";
+        font-weight: 900;
+    }
+}

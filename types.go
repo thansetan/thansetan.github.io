@@ -3,17 +3,17 @@ package main
 import "time"
 
 type articleMeta struct {
-	Title, Path string
 	Date        time.Time
+	Title, Path string
 }
 
 type pageMeta struct {
-	Title, layout string
 	Date          time.Time
+	Title, layout string
 }
 type page[T any] struct {
-	Meta    pageMeta
 	Content T
+	Meta    pageMeta
 }
 
 type timeFrame struct {
@@ -22,8 +22,8 @@ type timeFrame struct {
 }
 
 type projectMeta struct {
-	Title, Path string
-	Timeframe   timeFrame
+	Timeframe                timeFrame
+	Title, Description, Path string
 }
 type tech struct {
 	Name string `yaml:"name"`

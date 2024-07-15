@@ -8,9 +8,12 @@
     <h1>List of Projects</h1>
     <ul>
     {{ range .Content }}
-        <li>
+        <li class="project-item">
             <a href="{{ .Path }}">{{ .Title }}</a>
             <span class="project-timeframe">({{ .Timeframe.Start.Format "Jan 2006" }} - {{ .Timeframe.End.Format "Jan 2006" }})</span>
+            {{ if .Description }}
+            <p>{{ .Description }}</p>
+            {{ end}}
         </li>
     {{ end }}
     </ul>

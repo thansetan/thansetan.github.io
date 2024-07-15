@@ -22,9 +22,7 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-var (
-	md goldmark.Markdown
-)
+var md goldmark.Markdown
 
 func init() {
 	md = goldmark.New(
@@ -57,7 +55,7 @@ func init() {
 
 type dotMdLinkTransformer struct{}
 
-func (t *dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
+func (*dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
 	ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if link, ok := node.(*ast.Link); ok &&
 			strings.Contains(string(link.Destination), ".md") {

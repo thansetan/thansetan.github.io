@@ -89,9 +89,10 @@ func buildWebsite() error {
 					return err
 				}
 				projects = append(projects, projectMeta{
-					Title:     projectData.Title,
-					Path:      filepath.Base(filepath.Dir(path)),
-					Timeframe: projectData.Timeframe,
+					Title:       projectData.Title,
+					Path:        filepath.Base(filepath.Dir(path)),
+					Timeframe:   projectData.Timeframe,
+					Description: projectData.Description,
 				})
 				outputPath := filepath.Join(filepath.Dir(strings.Replace(path, inputDir, outputDir, 1)), "index.html")
 				err = toHTML(tmpl, "project", outputPath, page[project]{
@@ -130,7 +131,6 @@ func buildWebsite() error {
 		}
 		return err
 	})
-
 	if err != nil {
 		return err
 	}
