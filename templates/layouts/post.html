@@ -1,4 +1,8 @@
 {{ define "post"}} {{ template "upper" or .Meta.Title "A Post" }}
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css"
+/>
 <header>{{ template "back" "/posts" }}</header>
 <main>
     <article>
@@ -10,5 +14,22 @@
         <h1 class="post-title text-center">{{ or .Meta.Title "A Post" }}</h1>
         {{ .Content }}
     </article>
-    {{ template "lower" }} {{ end }}
-</main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
+    <script>
+        document.querySelectorAll('article img').forEach((img) => {
+            const viewer = new Viewer(img, {
+                navbar: false,
+                toolbar: {
+                    zoomIn: 4,
+                    zoomOut: 4,
+                    oneToOne: 4,
+                    reset: 4,
+                    rotateLeft: 4,
+                    rotateRight: 4,
+                    flipHorizontal: 4,
+                    flipVertical: 4,
+                },
+            })
+        })
+    </script>
+{{ template "lower" }} {{ end }}
