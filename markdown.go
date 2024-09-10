@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/alecthomas/chroma/v2/formatters/html"
+	figure "github.com/mangoumbrella/goldmark-figure"
 	attributes "github.com/mdigger/goldmark-attributes"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
@@ -17,7 +18,6 @@ import (
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
-	gmHtml "github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
 )
@@ -38,9 +38,7 @@ func init() {
 			extension.Footnote,
 			extension.Strikethrough,
 			attributes.Extension,
-		),
-		goldmark.WithRendererOptions(
-			gmHtml.WithHardWraps(),
+			figure.Figure,
 		),
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
