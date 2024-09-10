@@ -2,7 +2,7 @@ package main
 
 import "time"
 
-type articleMeta struct {
+type postMeta struct {
 	Date        time.Time
 	Title, Path string
 }

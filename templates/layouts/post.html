@@ -1,0 +1,14 @@
+{{ define "post"}} {{ template "upper" or .Meta.Title "A Post" }}
+<header>{{ template "back" "/posts" }}</header>
+<main>
+    <article>
+        <p class="text-right">
+            <time datetime="{{.Meta.Date}}">
+                {{ .Meta.Date.Format "January 02, 2006" }}
+            </time>
+        </p>
+        <h1 class="post-title text-center">{{ or .Meta.Title "A Post" }}</h1>
+        {{ .Content }}
+    </article>
+    {{ template "lower" }} {{ end }}
+</main>

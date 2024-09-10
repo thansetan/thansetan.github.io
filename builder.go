@@ -15,7 +15,7 @@ import (
 var (
 	inputDir     = "src"
 	outputDir    = "docs"
-	articlesDir  = filepath.Join(inputDir, "articles")
+	postsDir     = filepath.Join(inputDir, "posts")
 	projectsDir  = filepath.Join(inputDir, "projects")
 	templatesDir = "templates"
 )
@@ -38,7 +38,7 @@ func main() {
 
 func buildWebsite() error {
 	var (
-		articles []articleMeta
+		posts    []postMeta
 		projects []projectMeta
 	)
 
@@ -52,23 +52,23 @@ func buildWebsite() error {
 			err = os.MkdirAll(strings.Replace(path, inputDir, outputDir, 1), os.ModePerm)
 		} else {
 			if filepath.Ext(d.Name()) == ".md" {
-				// ignore /articles and /projects path, will be treated later
-				if path == filepath.Join(articlesDir, "index.md") || path == filepath.Join(projectsDir, "index.md") {
+				// ignore /posts and /projects path, will be treated later
+				if path == filepath.Join(postsDir, "index.md") || path == filepath.Join(projectsDir, "index.md") {
 					return nil
 				}
 
-				isArticle := strings.HasPrefix(path, articlesDir)
+				isPost := strings.HasPrefix(path, postsDir)
 
-				pageMeta, content, err := toPageData(path, isArticle)
+				pageMeta, content, err := toPageData(path, isPost)
 				if err != nil {
 					return err
 				}
 
-				if isArticle {
-					articlePath := filepath.Base(filepath.Dir(path))
-					articles = append(articles, articleMeta{
+				if isPost {
+					filePath := filepath.Base(filepath.Dir(path))
+					posts = append(posts, postMeta{
 						Title: pageMeta.Title,
-						Path:  articlePath,
+						Path:  filePath,
 						Date:  pageMeta.Date,
 					})
 				}
@@ -135,8 +135,8 @@ func buildWebsite() error {
 		return err
 	}
 
-	// create /articles page
-	err = generateSpecialPage(tmpl, filepath.Join(articlesDir, "index.md"), filepath.Join(outputDir, "articles", "index.html"), articles, func(a, b articleMeta) int {
+	// create /posts page
+	err = generateSpecialPage(tmpl, filepath.Join(postsDir, "index.md"), filepath.Join(outputDir, "posts", "index.html"), posts, func(a, b postMeta) int {
 		return cmp.Compare(b.Date.Unix(), a.Date.Unix())
 	})
 	if err != nil {

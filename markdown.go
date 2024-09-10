@@ -56,7 +56,7 @@ func init() {
 type dotMdLinkTransformer struct{}
 
 func (*dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
-	ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
+	_ = ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
 		if link, ok := node.(*ast.Link); ok &&
 			strings.Contains(string(link.Destination), ".md") {
 			url, err := url.Parse(string(link.Destination))
@@ -72,7 +72,7 @@ func (*dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, c
 	})
 }
 
-func toPageData(inputPath string, isArticle bool) (pageMeta, string, error) {
+func toPageData(inputPath string, isPost bool) (pageMeta, string, error) {
 	var (
 		pageMeta pageMeta
 		buf      bytes.Buffer
@@ -103,8 +103,8 @@ func toPageData(inputPath string, isArticle bool) (pageMeta, string, error) {
 	if v, ok := metaData["layout"].(string); ok {
 		pageMeta.layout = v
 	} else {
-		if isArticle {
-			pageMeta.layout = "article"
+		if isPost {
+			pageMeta.layout = "post"
 		} else {
 			pageMeta.layout = "page"
 		}

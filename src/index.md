@@ -5,6 +5,6 @@ layout: home
 # thansetan
 Just an ordinary personal site.
  - [Contacts](contacts.md)
- - [Articles](articles)
+ - [Posts](posts)
  - [Projects](projects)
 { .menu-item }
