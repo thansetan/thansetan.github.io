@@ -1,6 +1,6 @@
 module ghpages
 
-go 1.21.4
+go 1.23.1
 
 require (
 	github.com/alecthomas/chroma/v2 v2.11.1
@@ -16,3 +16,5 @@ require (
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
+
+replace github.com/mangoumbrella/goldmark-figure => github.com/thansetan/goldmark-figure v0.0.0-20240910091154-75de0c5e7033
