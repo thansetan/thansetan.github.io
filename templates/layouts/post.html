@@ -1,8 +1,9 @@
-{{ define "post"}} {{ template "upper" or .Meta.Title "A Post" }}
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css"
+
+{{ define "post"}} {{ template "upper_open" or .Meta.Title "A Post" }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css"
 />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-dark.min.css">
+{{ template "upper_close" }}
 <header>{{ template "back" "/posts" }}</header>
 <main>
     <article>
@@ -14,9 +15,14 @@
         <h1 class="post-title text-center">{{ or .Meta.Title "A Post" }}</h1>
         {{ .Content }}
     </article>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
-    <script>
-        document.querySelectorAll('article img').forEach((img) => {
+{{ template "lower_open" }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll()
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
+<script>
+    document.querySelectorAll('article img').forEach((img) => {
             const viewer = new Viewer(img, {
                 navbar: false,
                 toolbar: {
@@ -31,5 +37,6 @@
                 },
             })
         })
-    </script>
-{{ template "lower" }} {{ end }}
+</script>
+{{ template "lower_close" }}
+{{ end }}

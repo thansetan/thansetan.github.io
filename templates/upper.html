@@ -1,4 +1,4 @@
-{{ define "upper" }}
+{{ define "upper_open" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +8,14 @@
     <title>{{ . }} - thansetan</title>
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/aku.png">
     <link rel="stylesheet" href="/assets/css/style.css">
+{{ end }}
+
+{{ define "upper_close" }}
 </head>
 <body>
+{{ end }}
+
+{{ define "upper" }}
+{{ template "upper_open" . }}
+{{ template "upper_close" }}
 {{ end }}

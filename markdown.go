@@ -10,11 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alecthomas/chroma/v2/formatters/html"
 	figure "github.com/mangoumbrella/goldmark-figure"
 	attributes "github.com/mdigger/goldmark-attributes"
 	"github.com/yuin/goldmark"
-	highlighting "github.com/yuin/goldmark-highlighting/v2"
 
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/ast"
@@ -32,12 +30,6 @@ func init() {
 	md = goldmark.New(
 		goldmark.WithExtensions(
 			meta.Meta,
-			highlighting.NewHighlighting(
-				highlighting.WithStyle("onedark"),
-				highlighting.WithFormatOptions(
-					html.WithLineNumbers(true),
-				),
-			),
 			extension.Table,
 			extension.Footnote,
 			extension.Strikethrough,

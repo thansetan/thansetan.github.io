@@ -1,4 +1,4 @@
-{{ define "lower" }}
+{{ define "lower_open" }}
 </main>
 <footer>
     <div class="text-center">&copy;2022-<span id="current-year"></span> thansetan</div>
@@ -7,6 +7,14 @@
     const date = new Date().getFullYear()
     document.getElementById('current-year').innerHTML = date
 </script>
+{{ end }}
+
+{{ define "lower_close" }}
 </body>
 </html>
+{{ end }}
+
+{{ define "lower" }}
+{{ template "lower_open" }}
+{{ template "lower_close" }}
 {{ end }}
