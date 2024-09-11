@@ -8,6 +8,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 )
@@ -136,7 +137,7 @@ func buildWebsite() error {
 	}
 
 	// create /posts page
-	err = generateSpecialPage(tmpl, filepath.Join(postsDir, "index.md"), filepath.Join(outputDir, "posts", "index.html"), posts, func(a, b postMeta) int {
+	err = toListPage(tmpl, filepath.Join(postsDir, "index.md"), filepath.Join(outputDir, "posts", "index.html"), posts, func(a, b postMeta) int {
 		return cmp.Compare(b.Date.Unix(), a.Date.Unix())
 	})
 	if err != nil {
@@ -144,11 +145,30 @@ func buildWebsite() error {
 	}
 
 	// create /projects page
-	err = generateSpecialPage(tmpl, filepath.Join(projectsDir, "index.md"), filepath.Join(outputDir, "projects", "index.html"), projects, func(a, b projectMeta) int {
+	err = toListPage(tmpl, filepath.Join(projectsDir, "index.md"), filepath.Join(outputDir, "projects", "index.html"), projects, func(a, b projectMeta) int {
 		if a.Timeframe.Start.Unix() == b.Timeframe.Start.Unix() {
 			return cmp.Compare(b.Timeframe.End.Unix(), a.Timeframe.End.Unix())
 		}
 		return cmp.Compare(b.Timeframe.Start.Unix(), a.Timeframe.Start.Unix())
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func toListPage[T any](tmpl *template.Template, in, out string, data []T, cmpFunc func(T, T) int) error {
+	slices.SortFunc(data, cmpFunc)
+
+	pageMeta, _, err := toPageData(in, false)
+	if err != nil {
+		return err
+	}
+
+	err = toHTML(tmpl, pageMeta.layout, out, page[[]T]{
+		Meta:    pageMeta,
+		Content: data,
 	})
 	if err != nil {
 		return err
