@@ -7,7 +7,6 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	figure "github.com/mangoumbrella/goldmark-figure"
@@ -20,7 +19,6 @@ import (
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
 	gmHTML "github.com/yuin/goldmark/renderer/html"
-	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
 )
 
@@ -39,10 +37,6 @@ func init() {
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
 			parser.WithAttribute(),
-			parser.WithASTTransformers(util.PrioritizedValue{
-				Value:    &dotMdLinkTransformer{},
-				Priority: 1000,
-			}),
 		),
 		goldmark.WithRendererOptions(
 			renderer.WithNodeRenderers(
@@ -50,25 +44,6 @@ func init() {
 			),
 		),
 	)
-}
-
-type dotMdLinkTransformer struct{}
-
-func (*dotMdLinkTransformer) Transform(node *ast.Document, reader text.Reader, ctx parser.Context) {
-	_ = ast.Walk(node, func(node ast.Node, entering bool) (ast.WalkStatus, error) {
-		if link, ok := node.(*ast.Link); ok &&
-			strings.Contains(string(link.Destination), ".md") {
-			url, err := url.Parse(string(link.Destination))
-			if err != nil {
-				return ast.WalkContinue, err
-			}
-			if url.Scheme == "" && filepath.Ext(url.Path) == ".md" { // only replace relative links and .md files
-				url.Path = url.Path[:len(url.Path)-2] + "html"
-				link.Destination = []byte(url.String())
-			}
-		}
-		return ast.WalkContinue, nil
-	})
 }
 
 type linkRenderer struct{}
@@ -81,6 +56,16 @@ func (r *linkRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
 func (*linkRenderer) renderLink(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	if link, ok := node.(*ast.Link); ok {
 		if entering {
+			if bytes.Contains(link.Destination, []byte(".md")) {
+				url, err := url.Parse(string(link.Destination))
+				if err != nil {
+					return ast.WalkContinue, err
+				}
+				if url.Scheme == "" && filepath.Ext(url.Path) == ".md" { // only replace relative links and .md files
+					url.Path = url.Path[:len(url.Path)-2] + "html"
+					link.Destination = []byte(url.String())
+				}
+			}
 			_, _ = fmt.Fprintf(w, `<a href="%s"`, string(util.EscapeHTML(util.URLEscape(link.Destination, true))))
 			if len(link.Title) != 0 {
 				_, _ = fmt.Fprintf(w, ` title="%s"`, string(link.Title))
