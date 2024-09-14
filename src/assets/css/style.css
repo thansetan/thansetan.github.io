@@ -98,6 +98,7 @@ img {
 }
 
 figcaption {
+    font-style: italic;
     text-align: center;
     font-size: 14px;
     opacity: 0.8;
@@ -145,22 +146,14 @@ h1[id="404"] {
 }
 
 .project-title {
-    margin-bottom: 0;
+    margin: 0;
+    text-align: center;
 }
-
-.project-timeframe {
-    margin-top: 0;
-    font-weight: bold;
+.project-title::before{
+    content: ">> ";
 }
-
-.project-url {
-    display: flex;
-    justify-content: space-between;
-}
-
-.project-description {
-    text-align: justify;
-    text-indent: 5%;
+.project-title::after{
+    content: " <<";
 }
 
 .menu-item {
@@ -175,23 +168,4 @@ h1[id="404"] {
 
 .menu-item li:not(:last-child)::after {
     content: " |";
-}
-
-.project-item {
-    p {
-        text-align: justify;
-        font-size: 14px;
-        margin: 0;
-        line-clamp: 2;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-    }
-
-    p::before {
-        content: "> ";
-        font-weight: 900;
-    }
 }

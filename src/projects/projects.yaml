@@ -1,0 +1,31 @@
+projects:
+  # - name:
+  #   banner:
+  #     url:
+  #     alt:
+  #     caption:
+  #   description:
+  #   url:
+  #     github:
+  #     project:
+    
+  - name: Twitter Moon
+    banner:
+      url: https://github.com/thansetan/twitter-moon/blob/main/demo.gif?raw=true
+      alt: Twitter Moon demo
+      caption: A 30-day timelapse showing a Twitter profile picture changing to match the phases of the moon.
+    description: An app that automatically updates users' X (formerly Twitter) profile pictures every hour to match the current moon phase. The moon phase images are obtained from [NASA's Scientific Visualization Studio (SVS)](https://svs.gsfc.nasa.gov/).
+    url:
+      github: https://github.com/thansetan/twitter-moon
+
+  - name: Git Sw(itch)
+    banner:
+      url: https://github.com/user-attachments/assets/e08c8a1d-c00e-4aa8-b31f-338dea710bf7
+      alt: Git Sw(itch) demo
+      caption: Switching between multiple git configs using git sw(itch).
+    description: A CLI tool that lets users manage and switch between multiple Git profiles/configs easily.
+    url:
+      github: https://github.com/thansetan/git-sw
+
+  - name: More Projects
+    description: Oher public projects can be found on [my Github](https://github.com/thansetan).

@@ -14,11 +14,16 @@ import (
 )
 
 var (
-	inputDir     = "src"
-	outputDir    = "docs"
-	postsDir     = filepath.Join(inputDir, "posts")
-	projectsDir  = filepath.Join(inputDir, "projects")
-	templatesDir = "templates"
+	inputDir          = "src"
+	outputDir         = "docs"
+	postsDir          = "posts"
+	projectsDir       = "projects"
+	projectsFileName  = "projects.yaml"
+	inputPostsDir     = filepath.Join(inputDir, postsDir)
+	inputProjectsDir  = filepath.Join(inputDir, projectsDir)
+	outputPostsDir    = filepath.Join(outputDir, postsDir)
+	outputProjectsDir = filepath.Join(outputDir, projectsDir)
+	templatesDir      = "templates"
 )
 
 func init() {
@@ -40,7 +45,7 @@ func main() {
 func buildWebsite() error {
 	var (
 		posts    []postMeta
-		projects []projectMeta
+		projects projectsData
 	)
 
 	tmpl, err := parseTemplates(templatesDir)
@@ -54,11 +59,11 @@ func buildWebsite() error {
 		} else {
 			if filepath.Ext(d.Name()) == ".md" {
 				// ignore /posts and /projects path, will be treated later
-				if path == filepath.Join(postsDir, "index.md") || path == filepath.Join(projectsDir, "index.md") {
+				if path == filepath.Join(inputPostsDir, "index.md") || path == filepath.Join(inputProjectsDir, "index.md") {
 					return nil
 				}
 
-				isPost := strings.HasPrefix(path, postsDir)
+				isPost := strings.HasPrefix(path, inputPostsDir)
 
 				pageMeta, content, err := toPageData(path, isPost)
 				if err != nil {
@@ -84,22 +89,8 @@ func buildWebsite() error {
 				if err != nil {
 					return err
 				}
-			} else if filepath.Ext(d.Name()) == ".yaml" && strings.HasPrefix(path, projectsDir) {
-				projectData, err := parseYAML[project](path)
-				if err != nil {
-					return err
-				}
-				projects = append(projects, projectMeta{
-					Title:       projectData.Title,
-					Path:        filepath.Base(filepath.Dir(path)),
-					Timeframe:   projectData.Timeframe,
-					Description: projectData.Description,
-				})
-				outputPath := filepath.Join(filepath.Dir(strings.Replace(path, inputDir, outputDir, 1)), "index.html")
-				err = toHTML(tmpl, "project", outputPath, page[project]{
-					Meta:    pageMeta{Title: projectData.Title},
-					Content: projectData,
-				})
+			} else if path == filepath.Join(inputProjectsDir, projectsFileName) {
+				projects, err = parseYAML[projectsData](path)
 				if err != nil {
 					return err
 				}
@@ -137,7 +128,7 @@ func buildWebsite() error {
 	}
 
 	// create /posts page
-	err = toListPage(tmpl, filepath.Join(postsDir, "index.md"), filepath.Join(outputDir, "posts", "index.html"), posts, func(a, b postMeta) int {
+	err = toListPage(tmpl, filepath.Join(inputPostsDir, "index.md"), filepath.Join(outputPostsDir, "index.html"), posts, func(a, b postMeta) int {
 		return cmp.Compare(b.Date.Unix(), a.Date.Unix())
 	})
 	if err != nil {
@@ -145,12 +136,7 @@ func buildWebsite() error {
 	}
 
 	// create /projects page
-	err = toListPage(tmpl, filepath.Join(projectsDir, "index.md"), filepath.Join(outputDir, "projects", "index.html"), projects, func(a, b projectMeta) int {
-		if a.Timeframe.Start.Unix() == b.Timeframe.Start.Unix() {
-			return cmp.Compare(b.Timeframe.End.Unix(), a.Timeframe.End.Unix())
-		}
-		return cmp.Compare(b.Timeframe.Start.Unix(), a.Timeframe.Start.Unix())
-	})
+	err = toListPage(tmpl, filepath.Join(inputProjectsDir, "index.md"), filepath.Join(outputProjectsDir, "index.html"), projects.Projects, func(t1, t2 project) int { return 0 })
 	if err != nil {
 		return err
 	}

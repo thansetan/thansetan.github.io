@@ -12,4 +12,4 @@ require (
 
 require gopkg.in/yaml.v2 v2.3.0 // indirect
 
-replace github.com/mangoumbrella/goldmark-figure => github.com/thansetan/goldmark-figure v0.0.0-20240910091154-75de0c5e7033
+replace github.com/mangoumbrella/goldmark-figure => github.com/thansetan/goldmark-figure v0.0.0-20240914033225-494d5a55b0eb

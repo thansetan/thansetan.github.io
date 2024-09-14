@@ -1,7 +1,7 @@
 github.com/mdigger/goldmark-attributes v0.0.0-20210529130523-52da21a6bf2b h1:b7OaN0oQFTn5bhUhbNVA7q82fF5hnzNFhuYKDqJ78Ag=
 github.com/mdigger/goldmark-attributes v0.0.0-20210529130523-52da21a6bf2b/go.mod h1:9c4hA7YdGQGp2KDiT149eXUg8Y6kFZNPo6hSBS68zV0=
-github.com/thansetan/goldmark-figure v0.0.0-20240910091154-75de0c5e7033 h1:yKGhzVOR3V46J4GCsTlUrGxF9QmwxgdW+XT3pWuYiZ4=
-github.com/thansetan/goldmark-figure v0.0.0-20240910091154-75de0c5e7033/go.mod h1:iIL+fhdmCQDpE0l/TKtGhokWzIbo5lo/Y2OIAcx6usI=
+github.com/thansetan/goldmark-figure v0.0.0-20240914033225-494d5a55b0eb h1:oHFz3aYuTMGrWqxnuYq0X2ugPHywRhEXEneJILYKCy8=
+github.com/thansetan/goldmark-figure v0.0.0-20240914033225-494d5a55b0eb/go.mod h1:iIL+fhdmCQDpE0l/TKtGhokWzIbo5lo/Y2OIAcx6usI=
 github.com/yuin/goldmark v1.3.7/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 github.com/yuin/goldmark v1.7.4 h1:BDXOHExt+A7gwPCJgPIIq7ENvceR7we7rOS9TNoLZeg=
 github.com/yuin/goldmark v1.7.4/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=

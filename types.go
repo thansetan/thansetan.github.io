@@ -1,6 +1,8 @@
 package main
 
-import "time"
+import (
+	"time"
+)
 
 type postMeta struct {
 	Date        time.Time
@@ -16,25 +18,20 @@ type page[T any] struct {
 	Meta    pageMeta
 }
 
-type timeFrame struct {
-	Start time.Time `yaml:"start"`
-	End   time.Time `yaml:"end"`
-}
-
-type projectMeta struct {
-	Timeframe                timeFrame
-	Title, Description, Path string
-}
-type tech struct {
-	Name string `yaml:"name"`
-	URL  string `yaml:"url"`
-}
-
 type project struct {
-	Title        string    `yaml:"title"`
-	Timeframe    timeFrame `yaml:"timeframe"`
-	Description  string    `yaml:"description"`
-	GithubRepo   string    `yaml:"github_repo"`
-	ProjectURL   string    `yaml:"project_url"`
-	Technologies []tech    `yaml:"technologies"`
+	Name   string `yaml:"name"`
+	Banner struct {
+		URL     string `yaml:"url"`
+		Alt     string `yaml:"alt"`
+		Caption string `yaml:"caption"`
+	} `yaml:"banner"`
+	Description string `yaml:"description"`
+	URL         struct {
+		GitHub  string `yaml:"github"`
+		Project string `yaml:"project"`
+	} `yaml:"url"`
+}
+
+type projectsData struct {
+	Projects []project `yaml:"projects"`
 }

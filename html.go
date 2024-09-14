@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"html/template"
 	"io/fs"
 	"os"
@@ -8,7 +9,16 @@ import (
 )
 
 func parseTemplates(dir string) (*template.Template, error) {
-	tmpl := template.New("")
+	tmpl := template.New("").Funcs(template.FuncMap{
+		"md2html": func(s string) template.HTML {
+			b := new(bytes.Buffer)
+			err := md.Convert([]byte(s), b)
+			if err != nil {
+				return template.HTML("<p>failed to convert to html</p>")
+			}
+			return template.HTML(b.Bytes())
+		},
+	})
 
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
 		if filepath.Ext(d.Name()) == ".html" {

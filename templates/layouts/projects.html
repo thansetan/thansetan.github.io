@@ -1,24 +1,52 @@
-{{ define "projects" }}
-{{ template "upper" .Meta.Title }}
-<header>
-    {{ template "back" }}
-</header>
+{{ define "projects" }} {{ template "upper_open" or .Meta.Title "Projects"
+}}
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css"
+/>
+{{ template "upper_close" }}
+<header>{{ template "back" }}</header>
 <main>
-    {{ if .Content }}
-    <h1>List of Projects</h1>
-    <ul>
-    {{ range .Content }}
-        <li class="project-item">
-            <a href="{{ .Path }}">{{ .Title }}</a>
-            <span class="project-timeframe">({{ .Timeframe.Start.Format "Jan 2006" }} - {{ .Timeframe.End.Format "Jan 2006" }})</span>
-            {{ if .Description }}
-            <p>{{ .Description }}</p>
-            {{ end}}
-        </li>
-    {{ end }}
-    </ul>
-    {{ else }}
-    <h1 class="center-ver-hor text-center">Lagi males nulis, cek aja di <a href="https://github.com/thansetan" target="_blank">GitHub</a>.</h1>
-    {{ end }}
-{{ template "lower"}}
-{{ end }}
+    <h1>{{ or .Meta.Title "Projects" }}</h1>
+    <p>
+        Some projects I have worked on include, but are not limited to:
+    </p>
+    {{ range .Content}}
+    <div>
+        <h2 class="project-title" >{{ .Name }}</h2>
+        {{ if .Banner.URL }}
+        <figure>
+            <img src="{{.Banner.URL}}" alt="{{.Banner.Alt}}" style="max-height: 250px;" />
+            {{ with .Banner.Caption | md2html }}
+            <figcaption>{{.}}</figcaption>
+            {{ end }}
+        </figure>
+        {{ end }} {{ .Description | md2html }}
+        <p class="text-center">
+            {{ with .URL.GitHub }}
+            <a href="{{.}}" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+            {{ end }} {{ with .URL.Project }}
+            <a href="{{.}}" target="_blank" rel="noopener noreferrer">Deployed Project</a>
+            {{ end }}
+        </p>
+    </div>
+    {{ end }} {{ template "lower_open" }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js"></script>
+    <script>
+        document.querySelectorAll('figure img').forEach((img) => {
+            const viewer = new Viewer(img, {
+                navbar: false,
+                toolbar: {
+                    zoomIn: 4,
+                    zoomOut: 4,
+                    oneToOne: 4,
+                    reset: 4,
+                    rotateLeft: 4,
+                    rotateRight: 4,
+                    flipHorizontal: 4,
+                    flipVertical: 4,
+                },
+            })
+        })
+    </script>
+{{ template "lower_close" }} {{ end }}
