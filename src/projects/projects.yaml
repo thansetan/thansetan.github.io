@@ -14,7 +14,7 @@ projects:
       url: https://github.com/thansetan/twitter-moon/blob/main/demo.gif?raw=true
       alt: Twitter Moon demo
       caption: A 30-day timelapse showing a Twitter profile picture changing to match the phases of the moon.
-    description: An app that automatically updates users' X (formerly Twitter) profile pictures every hour to match the current moon phase. The moon phase images are obtained from [NASA's Scientific Visualization Studio (SVS)](https://svs.gsfc.nasa.gov/).
+    description: An app that automatically updates users' X (formerly known as Twitter) profile pictures every hour to match the current moon phase. The moon phase images are obtained from [NASA's Scientific Visualization Studio (SVS)](https://svs.gsfc.nasa.gov/).
     url:
       github: https://github.com/thansetan/twitter-moon
 
