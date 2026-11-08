@@ -27,5 +27,14 @@ projects:
     url:
       github: https://github.com/thansetan/git-sw
 
+  - name: Git D(iff) E(xport)
+    banner:
+      url: https://github.com/thansetan/git-de/blob/main/demo/demo.gif?raw=true
+      alt: Git D(iff) E(xport) demo
+      caption: Exporting files changed between Git commits while preserving directory structure.
+    description: A CLI tool to export files changed between Git commits while preserving directory structure, with an interactive TUI, archive export, size limits, and include/ignore patterns.
+    url:
+      github: https://github.com/thansetan/git-de
+
   - name: More Projects
     description: Oher public projects can be found on [my Github](https://github.com/thansetan).
