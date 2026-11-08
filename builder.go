@@ -14,16 +14,20 @@ import (
 )
 
 var (
-	inputDir          = "src"
-	outputDir         = "docs"
-	postsDir          = "posts"
-	projectsDir       = "projects"
-	projectsFileName  = "projects.yaml"
-	inputPostsDir     = filepath.Join(inputDir, postsDir)
-	inputProjectsDir  = filepath.Join(inputDir, projectsDir)
-	outputPostsDir    = filepath.Join(outputDir, postsDir)
-	outputProjectsDir = filepath.Join(outputDir, projectsDir)
-	templatesDir      = "templates"
+	inputDir            = "src"
+	outputDir           = "docs"
+	postsDir            = "posts"
+	projectsDir         = "projects"
+	otherSidesDir       = "other-sides"
+	projectsFileName    = "projects.yaml"
+	otherSidesFileName  = "other-sides.yaml"
+	inputPostsDir       = filepath.Join(inputDir, postsDir)
+	inputProjectsDir    = filepath.Join(inputDir, projectsDir)
+	inputOtherSidesDir  = filepath.Join(inputDir, otherSidesDir)
+	outputPostsDir      = filepath.Join(outputDir, postsDir)
+	outputProjectsDir   = filepath.Join(outputDir, projectsDir)
+	outputOtherSidesDir = filepath.Join(outputDir, otherSidesDir)
+	templatesDir        = "templates"
 )
 
 func init() {
@@ -46,6 +50,7 @@ func buildWebsite() error {
 	var (
 		posts    []postMeta
 		projects projectsData
+		others   otherSidesData
 	)
 
 	tmpl, err := parseTemplates(templatesDir)
@@ -58,8 +63,8 @@ func buildWebsite() error {
 			err = os.MkdirAll(strings.Replace(path, inputDir, outputDir, 1), os.ModePerm)
 		} else {
 			if filepath.Ext(d.Name()) == ".md" {
-				// ignore /posts and /projects path, will be treated later
-				if path == filepath.Join(inputPostsDir, "index.md") || path == filepath.Join(inputProjectsDir, "index.md") {
+				// ignore /posts, /projects, and /other-sides path, will be treated later
+				if path == filepath.Join(inputPostsDir, "index.md") || path == filepath.Join(inputProjectsDir, "index.md") || path == filepath.Join(inputOtherSidesDir, "index.md") {
 					return nil
 				}
 
@@ -94,6 +99,11 @@ func buildWebsite() error {
 				if err != nil {
 					return err
 				}
+			} else if path == filepath.Join(inputOtherSidesDir, otherSidesFileName) {
+				others, err = parseYAML[otherSidesData](path)
+				if err != nil {
+					return err
+				}
 			} else {
 				dstPath := strings.Replace(path, inputDir, outputDir, 1)
 				if err := copyFile(path, dstPath); err != nil {
@@ -117,6 +127,12 @@ func buildWebsite() error {
 
 	// create /projects page
 	err = toListPage(tmpl, filepath.Join(inputProjectsDir, "index.md"), filepath.Join(outputProjectsDir, "index.html"), projects.Projects, func(t1, t2 project) int { return 0 })
+	if err != nil {
+		return err
+	}
+
+	// create /other-sides page
+	err = toListPage(tmpl, filepath.Join(inputOtherSidesDir, "index.md"), filepath.Join(outputOtherSidesDir, "index.html"), others.Sites, func(t1, t2 otherSite) int { return 0 })
 	if err != nil {
 		return err
 	}
@@ -150,7 +166,7 @@ func copyFile(srcPath, dstPath string) (err error) {
 }
 
 func toListPage[T any](tmpl *template.Template, in, out string, data []T, cmpFunc func(T, T) int) error {
-	slices.SortFunc(data, cmpFunc)
+	slices.SortStableFunc(data, cmpFunc)
 
 	pageMeta, _, err := toPageData(in, false)
 	if err != nil {

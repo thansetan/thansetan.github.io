@@ -18,6 +18,9 @@ func parseTemplates(dir string) (*template.Template, error) {
 			}
 			return template.HTML(b.Bytes())
 		},
+		"cssValue": func(s string) template.CSS {
+			return template.CSS(s)
+		},
 	})
 
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {

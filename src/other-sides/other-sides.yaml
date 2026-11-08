@@ -1,0 +1,16 @@
+sites:
+  # - name:
+  #   url:
+  #   description:
+  #   preview_width:
+  #   preview_height:
+
+  - name: berak
+    url: https://berak.thansetan.boo
+    description: A personal 💩 tracker with streaks, monthly stats, and daily records.
+    preview_height: 520
+
+  - name: gerak
+    url: https://gerak.thansetan.boo
+    description: A Strava-powered activity dashboard for runs, walks, rides, and workouts.
+    preview_height: 520

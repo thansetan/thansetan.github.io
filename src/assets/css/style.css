@@ -156,6 +156,78 @@ h1[id="404"] {
     content: " <<";
 }
 
+.other-site {
+    margin-bottom: 3rem;
+}
+
+.other-site-title {
+    margin: 0;
+    text-align: center;
+}
+
+.other-site-title::before {
+    content: ">> ";
+}
+
+.other-site-title::after {
+    content: " <<";
+}
+
+.site-preview {
+    width: var(--preview-width, 100%);
+    max-width: 100%;
+    margin: 1rem auto 0;
+    border: thin solid black;
+    background: white;
+}
+
+.site-preview-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.35rem 0.6rem;
+    border-bottom: thin solid black;
+    font-size: 13px;
+}
+
+.site-preview-bar span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.site-preview-facade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 120px;
+    padding: 0;
+    border: 0;
+    background: #F6F6F6;
+    color: black;
+    font: inherit;
+    cursor: pointer;
+}
+
+.site-preview-facade:hover {
+    background: #8785A2;
+}
+
+.site-preview-note {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.site-preview iframe {
+    display: block;
+    width: 100%;
+    height: var(--preview-height, 480px);
+    border: 0;
+}
+
 .menu-item {
     list-style-type: none;
     padding: 0;

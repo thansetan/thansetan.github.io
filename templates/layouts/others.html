@@ -1,0 +1,47 @@
+{{ define "others" }}
+{{ template "upper" or .Meta.Title "Other Sides" }}
+<header>
+    {{ template "back" }}
+</header>
+<main>
+    <h1>{{ or .Meta.Title "Other Sides" }}</h1>
+    <p>A few of my other sides live elsewhere on the internet.</p>
+    {{ range .Content }}
+    <section class="other-site">
+        <h2 class="other-site-title">{{ .Name }}</h2>
+        {{ .Description | md2html }}
+        <div
+            class="site-preview"
+            style="{{ with .PreviewWidth }}--preview-width: {{ cssValue . }};{{ end }}--preview-height: {{ or .PreviewHeight 480 }}px;"
+        >
+            <div class="site-preview-bar">
+                <span>{{ .URL }}</span>
+                <a href="{{ .URL }}" target="_blank" rel="noopener noreferrer" aria-label="Open {{ .Name }} in a new tab">open ↗</a>
+            </div>
+            <button
+                class="site-preview-facade"
+                type="button"
+                data-src="{{ .URL }}"
+                data-title="{{ .Name }}"
+            >
+                <span>Click to load preview</span>
+                <span class="site-preview-note">loads {{ .URL }}</span>
+            </button>
+        </div>
+    </section>
+    {{ end }}
+{{ template "lower_open" }}
+<script>
+    document.querySelectorAll('.site-preview-facade').forEach((button) => {
+        button.addEventListener('click', () => {
+            const iframe = document.createElement('iframe')
+            iframe.src = button.dataset.src
+            iframe.title = `${button.dataset.title} preview`
+            iframe.loading = 'lazy'
+            iframe.sandbox = 'allow-scripts allow-same-origin allow-popups allow-forms allow-downloads'
+            button.replaceWith(iframe)
+        }, { once: true })
+    })
+</script>
+{{ template "lower_close" }}
+{{ end }}

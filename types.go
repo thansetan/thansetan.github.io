@@ -35,3 +35,15 @@ type project struct {
 type projectsData struct {
 	Projects []project `yaml:"projects"`
 }
+
+type otherSite struct {
+	Name          string `yaml:"name"`
+	URL           string `yaml:"url"`
+	Description   string `yaml:"description"`
+	PreviewWidth  string `yaml:"preview_width"`
+	PreviewHeight int    `yaml:"preview_height"`
+}
+
+type otherSidesData struct {
+	Sites []otherSite `yaml:"sites"`
+}
