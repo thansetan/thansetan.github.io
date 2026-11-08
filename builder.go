@@ -95,28 +95,8 @@ func buildWebsite() error {
 					return err
 				}
 			} else {
-				src, err := os.Open(path)
-				if err != nil {
-					return err
-				}
-				defer func() {
-					if err := src.Close(); err != nil {
-						fmt.Printf("ERROR CLOSING SOURCE FILE: %s\n", err.Error())
-					}
-				}()
-
-				dst, err := os.Create(strings.Replace(path, inputDir, outputDir, 1))
-				if err != nil {
-					return err
-				}
-				defer func() {
-					if err := dst.Close(); err != nil {
-						fmt.Printf("ERROR CLOSING DESTINATION FILE: %s\n", err.Error())
-					}
-				}()
-
-				_, err = io.Copy(dst, src)
-				if err != nil {
+				dstPath := strings.Replace(path, inputDir, outputDir, 1)
+				if err := copyFile(path, dstPath); err != nil {
 					return err
 				}
 			}
@@ -142,6 +122,31 @@ func buildWebsite() error {
 	}
 
 	return nil
+}
+
+func copyFile(srcPath, dstPath string) (err error) {
+	src, err := os.Open(srcPath)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if closeErr := src.Close(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
+
+	dst, err := os.Create(dstPath)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if closeErr := dst.Close(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
+
+	_, err = io.Copy(dst, src)
+	return err
 }
 
 func toListPage[T any](tmpl *template.Template, in, out string, data []T, cmpFunc func(T, T) int) error {

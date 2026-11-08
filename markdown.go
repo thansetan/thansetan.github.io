@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/url"
 	"os"
-	"path/filepath"
+	"strings"
 	"time"
 
 	figure "github.com/mangoumbrella/goldmark-figure"
@@ -61,9 +61,11 @@ func (*linkRenderer) renderLink(w util.BufWriter, source []byte, node ast.Node, 
 				if err != nil {
 					return ast.WalkContinue, err
 				}
-				if url.Scheme == "" && filepath.Ext(url.Path) == ".md" { // only replace relative links and .md files
-					url.Path = url.Path[:len(url.Path)-2] + "html"
-					link.Destination = []byte(url.String())
+				if url.Scheme == "" { // only replace relative links and .md files
+					if path, ok := strings.CutSuffix(url.Path, ".md"); ok {
+						url.Path = path + ".html"
+						link.Destination = []byte(url.String())
+					}
 				}
 			}
 			_, _ = fmt.Fprintf(w, `<a href="%s"`, string(util.EscapeHTML(util.URLEscape(link.Destination, true))))
@@ -148,10 +150,10 @@ func toPageData(inputPath string, isPost bool) (pageMeta, string, error) {
 	if v, ok := metaData["date"].(string); ok {
 		pageMeta.Date, err = time.Parse("2006-01-02", v)
 		if err != nil {
-			pageMeta.Date = time.Unix(0, 0)
+			pageMeta.Date = time.Time{}
 		}
 	} else {
-		pageMeta.Date = time.Unix(0, 0)
+		pageMeta.Date = time.Time{}
 	}
 
 	return pageMeta, buf.String(), nil

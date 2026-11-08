@@ -1,6 +1,6 @@
 module ghpages
 
-go 1.23.1
+go 1.27.0
 
 require (
 	github.com/mangoumbrella/goldmark-figure v1.2.0
